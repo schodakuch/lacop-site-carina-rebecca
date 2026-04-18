@@ -89,7 +89,7 @@ export default function Navigation() {
           </ol>
         </nav>
 
-        <div className="flex items-center justify-between gap-3">
+        <div className="flex items-center gap-3">
           <button
             type="button"
             onClick={toggle}
@@ -98,9 +98,6 @@ export default function Navigation() {
           >
             {lang === "en" ? "DE" : "EN"}
           </button>
-          <span className="mono text-[0.6rem] uppercase tracking-[0.22em] text-muted">
-            MMXXVI
-          </span>
         </div>
       </aside>
 

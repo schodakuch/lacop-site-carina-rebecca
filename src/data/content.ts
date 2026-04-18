@@ -19,18 +19,21 @@ export const translations = {
     editorial: { en: "Editorial", de: "Editorial" },
     portraiture: { en: "Portraiture", de: "Porträt" },
     lifestyle: { en: "Lifestyle", de: "Lifestyle" },
-    colophon: { en: "Colophon", de: "Kolophon" },
-    signature: { en: "Signature", de: "Signatur" },
+    colophon: { en: "About", de: "Über" },
+    signature: { en: "Contact", de: "Kontakt" },
     index: { en: "Index", de: "Index" },
     close: { en: "Close", de: "Schließen" },
   },
   cover: {
-    volume: { en: "Volume 01", de: "Band 01" },
     subtitle: {
-      en: "A lookbook in six pages. Editorial, portraiture, lifestyle.",
-      de: "Ein Lookbook in sechs Seiten. Editorial, Porträt, Lifestyle.",
+      en: "Editorial, portraiture, lifestyle.",
+      de: "Editorial, Porträt, Lifestyle.",
     },
-    open: { en: "Open the book", de: "Buch öffnen" },
+    hover_hint: {
+      en: "Hover a series to preview.",
+      de: "Fahre über eine Serie, um sie zu sehen.",
+    },
+    open: { en: "Start with Editorial", de: "Mit Editorial beginnen" },
   },
   photos: {
     heading: { en: "Contents", de: "Inhalt" },
@@ -40,8 +43,8 @@ export const translations = {
     },
     empty_series: { en: "This page is empty.", de: "Diese Seite ist leer." },
     frame_count: {
-      one: { en: "1 plate", de: "1 Platte" },
-      other: { en: "{n} plates", de: "{n} Platten" },
+      one: { en: "1 photo", de: "1 Foto" },
+      other: { en: "{n} photos", de: "{n} Fotos" },
     },
   },
   series: {
@@ -49,7 +52,7 @@ export const translations = {
     next: { en: "Next page", de: "Nächste Seite" },
   },
   about: {
-    heading: { en: "Colophon", de: "Kolophon" },
+    heading: { en: "About", de: "Über" },
     body: {
       en: "A short bio, representation and selected work will be set here. For now, this page stands as a placeholder until Carina's own words are in.",
       de: "Eine kurze Bio, Agentur und ausgewählte Arbeiten folgen hier. Bis dahin bleibt diese Seite ein Platzhalter.",
@@ -62,7 +65,7 @@ export const translations = {
     agencies_empty: { en: "Representation to come.", de: "Agentur folgt." },
   },
   contact: {
-    heading: { en: "Signature", de: "Signatur" },
+    heading: { en: "Contact", de: "Kontakt" },
     lede: { en: "A direct line, not a gatekeeper.", de: "Direkter Draht, kein Umweg." },
     form_note: {
       en: "The form composes a message in your mail app.",

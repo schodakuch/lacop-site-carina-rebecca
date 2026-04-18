@@ -28,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const displayName = profile.display_name ?? profile.slug;
   const description =
     profile.bio ??
-    `${displayName} — Lookbook Volume 01. Editorial, portraiture and lifestyle across six numbered pages.`;
+    `${displayName} — editorial, portraiture and lifestyle. A working portfolio.`;
 
   return {
     metadataBase: new URL(SITE_URL),

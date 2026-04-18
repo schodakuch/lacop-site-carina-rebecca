@@ -40,7 +40,7 @@ export default function SeriesClient({ category, media }: Props) {
         </p>
       </header>
 
-      {/* Plates */}
+      {/* Photos */}
       {media.length === 0 ? (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
           {Array.from({ length: 6 }).map((_, i) => (

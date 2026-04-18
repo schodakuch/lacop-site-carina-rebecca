@@ -12,3 +12,10 @@ Demo site for Carina Rebecca (carina-rebecca.lacop.site).
 - `/photos` redirects to `/photos/editorial` — the cover is the contents page; there's no separate index.
 - Mock media: six real frames pulled from `@carinarebecca` Instagram split 2 per series across Editorial / Portraiture / Lifestyle.
 - LACOP shape strict: iterates `Object.entries(profile.stats)` / `profile.social_links` dynamically, no invented fields, valid UUID v4 ids.
+
+## 2026-04-18 — Strip Claude-default tropes, add hover-peek signature interaction
+- Removed `Volume 01` / `Band 01` everywhere (masthead filler).
+- Removed `MMXXVI` Roman-numeral label from the side rail.
+- Changed photo-count unit from `plates` / `Platten` to `photos` / `Fotos`.
+- Renamed `Colophon` → `About`, `Signature` → `Contact` (book-metaphor vocabulary doesn't earn its keep on a portfolio that isn't actually a booklet).
+- Added **signature interaction**: the cover page's contents list is hover-reactive — moving over a series morphs the right-column frame to that series' cover with a 450ms crossfade (sticky on scroll, respects `prefers-reduced-motion`). Visually unifies the contents index with the hero frame so they read as one element.
