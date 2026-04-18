@@ -2,6 +2,20 @@
 
 Demo site for Carina Rebecca (carina-rebecca.lacop.site).
 
+## 2026-04-18 — Mobile fix: hero figure shown above text wall
+- On mobile the sticky right-column figure was appearing BELOW the entire
+  left column (name + bio + CTA + contents list) — users saw ~500px of text
+  before any photograph. `order-1 md:order-2` on the figure and
+  `order-2 md:order-1` on the text column now put the hero image first on
+  mobile while preserving the desktop left/right split.
+- Mobile index sheet (`Navigation.tsx`): was `overflow-hidden` with
+  `max-h-[80vh]` — when opened on a short viewport it could cut off entries
+  with no way to scroll. Added internal `overflow-y-auto` and capped height
+  at `calc(100vh - 3.5rem)` so the full list is always scrollable under the
+  fixed top bar.
+- Reduced initial `pt-12`→`pt-6` on mobile so the figure lands directly
+  under the top bar without a dead band.
+
 ## 2026-04-18 — Initial scaffold (Lookbook / side-rail / Swiss minimal)
 - Cloned from `sites/lea-emrich` as base (LACOP shape, env-driven multi-customer shell intact) then rebuilt the visual layer.
 - Concept: numbered lookbook in six pages — `01 Cover → 02 Editorial → 03 Portraiture → 04 Lifestyle → 05 Colophon → 06 Signature`.

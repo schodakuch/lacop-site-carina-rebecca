@@ -130,8 +130,10 @@ export default function Navigation() {
         </div>
         <div
           id="mobile-index"
-          className={`overflow-hidden transition-[max-height,opacity] duration-300 ${
-            open ? "max-h-[80vh] opacity-100 border-t border-rule" : "max-h-0 opacity-0"
+          className={`transition-[max-height,opacity] duration-300 ${
+            open
+              ? "max-h-[calc(100vh-3.5rem)] opacity-100 border-t border-rule overflow-y-auto"
+              : "max-h-0 opacity-0 overflow-hidden"
           }`}
         >
           <ol className="px-5 py-6 space-y-4">

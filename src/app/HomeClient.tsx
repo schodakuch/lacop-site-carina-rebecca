@@ -39,10 +39,10 @@ export default function HomeClient({ profile, categories, media }: Props) {
     media.filter((m) => m.category_id === categoryId).length;
 
   return (
-    <article className="px-5 md:px-10 max-w-[1100px] pt-12 md:pt-20 pb-16 md:pb-28">
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-14">
-        {/* LEFT — name, subtitle, contents */}
-        <div className="md:col-span-6">
+    <article className="px-5 md:px-10 max-w-[1100px] pt-6 md:pt-20 pb-16 md:pb-28">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-14">
+        {/* LEFT — name, subtitle, contents (mobile: appears AFTER the figure) */}
+        <div className="md:col-span-6 order-2 md:order-1">
           <motion.h1
             initial={reduced ? { opacity: 1 } : { opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
@@ -123,9 +123,9 @@ export default function HomeClient({ profile, categories, media }: Props) {
           </p>
         </div>
 
-        {/* RIGHT — reactive frame */}
-        <figure className="md:col-span-6 md:sticky md:top-14 md:self-start">
-          <div className="relative aspect-[4/5] overflow-hidden rounded-sm bg-sand">
+        {/* RIGHT — reactive frame (mobile: shown first, above the text) */}
+        <figure className="md:col-span-6 md:sticky md:top-14 md:self-start order-1 md:order-2">
+          <div className="relative aspect-[4/5] md:aspect-[4/5] overflow-hidden rounded-sm bg-sand">
             <AnimatePresence initial={false}>
               <motion.div
                 key={activeSrc}
