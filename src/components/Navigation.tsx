@@ -142,21 +142,47 @@ export default function Navigation() {
               : "max-h-0 opacity-0 overflow-hidden"
           }`}
         >
-          <ol className="px-5 py-6 space-y-4">
-            {pages.map((p) => (
-              <li key={p.key} className="flex items-baseline gap-4">
-                <span className="mono text-[0.64rem] tracking-[0.22em] tabular-nums text-muted">
-                  {p.n}
-                </span>
-                <Link
-                  href={p.href}
-                  className={`text-[1.1rem] ${isActive(p.href) ? "text-clay" : "text-ink"}`}
-                >
-                  {p.label}
-                </Link>
-              </li>
-            ))}
+          {/* Rows are 56px tap targets with dividers and an active-page
+              rule. Previously the links had no intrinsic height (inline
+              baseline gap only), below the 44px WCAG 2.5.5 floor. */}
+          <ol className="px-5 divide-y divide-rule">
+            {pages.map((p) => {
+              const active = isActive(p.href);
+              return (
+                <li key={p.key}>
+                  <Link
+                    href={p.href}
+                    className={`flex items-center gap-5 min-h-14 py-3 ${
+                      active ? "text-clay" : "text-ink"
+                    }`}
+                    aria-current={active ? "page" : undefined}
+                  >
+                    <span
+                      className={`mono text-[0.66rem] tracking-[0.22em] tabular-nums w-8 shrink-0 ${
+                        active ? "text-clay" : "text-muted"
+                      }`}
+                    >
+                      {p.n}
+                    </span>
+                    <span className="text-[1.2rem] tracking-[-0.005em]">
+                      {p.label}
+                    </span>
+                    {active && (
+                      <span
+                        aria-hidden
+                        className="ml-auto block w-1.5 h-1.5 rounded-full bg-clay"
+                      />
+                    )}
+                  </Link>
+                </li>
+              );
+            })}
           </ol>
+          <div className="px-5 py-4 border-t border-rule">
+            <span className="mono text-[0.62rem] uppercase tracking-[0.24em] text-muted">
+              {profile.website_domain ?? displayName}
+            </span>
+          </div>
         </div>
       </header>
     </>

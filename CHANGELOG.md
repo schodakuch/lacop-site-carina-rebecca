@@ -2,6 +2,19 @@
 
 Demo site for Carina Rebecca (carina-rebecca.lacop.site).
 
+## 2026-04-19 — Mobile drawer ergonomics + asymmetric cover-frame radius
+- Mobile drawer rows had no intrinsic height (inline baseline layout,
+  `space-y-4` between items) so the effective touch target was roughly
+  28–35px depending on type metrics — below WCAG 2.5.5 44px floor.
+  Rebuilt: each row min-h-14 with a divider, 8-char number column, a
+  1.2rem label, and an active-page dot in clay floated to the right
+  edge. Drawer footer added showing the domain/name.
+- Homepage reactive peek frame picked up an asymmetric radius
+  treatment: `rounded-tl-[2.25rem]` + `rounded-br-[2.25rem]` with
+  sharp `rounded-tr-sm` + `rounded-bl-sm` corners, plus a 1px ring
+  in the rule colour. Only on the cover plate — /photos section
+  displays keep their squared frames.
+
 ## 2026-04-19 — Flatten booklet: categories are sections inside /photos, not pages
 - Previously each category was its own page (`/photos/editorial`,
   `/photos/portraiture`, `/photos/lifestyle`) and the booklet expanded
