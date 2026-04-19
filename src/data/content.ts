@@ -11,6 +11,7 @@
 export const translations = {
   nav: {
     cover: { en: "Cover", de: "Cover" },
+    photos: { en: "Photos", de: "Fotos" },
     about: { en: "About", de: "Über" },
     contact: { en: "Contact", de: "Kontakt" },
     index: { en: "Index", de: "Index" },
@@ -32,12 +33,13 @@ export const translations = {
     },
   },
   photos: {
-    heading: { en: "Contents", de: "Inhalt" },
+    heading: { en: "Photos", de: "Fotos" },
     intro: {
-      en: "Pick any page to enter; the rail tracks your position.",
-      de: "Seite wählen — der Rand zeigt, wo du bist.",
+      en: "One page, every series. The strip below tracks where you are as you scroll.",
+      de: "Eine Seite, alle Serien. Der Streifen unten zeigt, wo du gerade bist.",
     },
-    empty_series: { en: "This page is empty.", de: "Diese Seite ist leer." },
+    categories_label: { en: "Series", de: "Serien" },
+    empty_series: { en: "This series is empty.", de: "Diese Serie ist leer." },
     frame_count: {
       one: { en: "1 photo", de: "1 Foto" },
       other: { en: "{n} photos", de: "{n} Fotos" },

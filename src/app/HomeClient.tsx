@@ -65,7 +65,7 @@ export default function HomeClient({ profile, categories, media }: Props) {
           {firstSeries && (
             <div className="mt-10">
               <Link
-                href={`/photos/${firstSeries.slug}`}
+                href={`/photos#cat-${firstSeries.slug}`}
                 className="inline-block text-[0.98rem] hover-line"
               >
                 {t(translations.cover.open).replace("{first}", firstSeries.name)} →
@@ -90,7 +90,7 @@ export default function HomeClient({ profile, categories, media }: Props) {
                   onBlur={() => setPeekId(null)}
                 >
                   <Link
-                    href={`/photos/${cat.slug}`}
+                    href={`/photos#cat-${cat.slug}`}
                     className="grid grid-cols-[1fr_auto] items-baseline gap-6 py-4 md:py-5"
                   >
                     <span

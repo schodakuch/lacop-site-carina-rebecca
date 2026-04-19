@@ -2,6 +2,33 @@
 
 Demo site for Carina Rebecca (carina-rebecca.lacop.site).
 
+## 2026-04-19 — Flatten booklet: categories are sections inside /photos, not pages
+- Previously each category was its own page (`/photos/editorial`,
+  `/photos/portraiture`, `/photos/lifestyle`) and the booklet expanded
+  to N+3 pages. Per the brief, categories are taxonomy within photos
+  rather than top-level chapters, so the booklet collapses to a flat
+  four-page ledger: cover (01) → photos (02) → about (03) → contact (04).
+- `/photos` is now a single-page gallery. All categories stack as
+  anchored sections (`#cat-<slug>`); a sticky category strip at the top
+  of the page acts as secondary nav with an IntersectionObserver
+  scroll-spy that highlights the current series as visitors scroll.
+- Deleted `src/app/photos/[slug]/` (page + SeriesClient) entirely —
+  those routes no longer exist. `sitemap.ts` dropped the per-category
+  URLs and no longer imports `getCategories`; builds are fully static.
+- `src/lib/pages.ts::buildPages()` signature changed: no longer takes
+  categories, just fixed labels `{cover, photos, about, contact}`.
+  Returns a constant 4-page list regardless of tenant. `usePages()`
+  updated to match — no category dependency.
+- `src/data/content.ts`: added `nav.photos` label and
+  `photos.categories_label` for the strip's `aria-label`; intro copy
+  rewritten for the one-page model.
+- Cover contents list + "Start with {first}" CTA now link to
+  `/photos#cat-<slug>` anchors rather than separate pages.
+- Dual-build verified: primary and sample-alt both emit 4 routes
+  (`/`, `/photos`, `/about`, `/contact`) — identical route shape
+  regardless of category count, since categories no longer materialise
+  as routes.
+
 ## 2026-04-19 — True multi-tenant shell (dynamic booklet)
 - The booklet was a fixed 6-page structure with three category pages
   hard-coded to slugs `editorial / portraiture / lifestyle` in
