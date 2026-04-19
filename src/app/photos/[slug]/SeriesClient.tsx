@@ -2,14 +2,16 @@
 
 import Image from "next/image";
 import type { Category, Media } from "@/lib/types";
-import { translations, pages } from "@/data/content";
+import { translations } from "@/data/content";
 import { useLang } from "@/context/LanguageContext";
+import { usePages } from "@/hooks/usePages";
 import Pagination from "@/components/Pagination";
 
 type Props = { category: Category; categories: Category[]; media: Media[] };
 
 export default function SeriesClient({ category, media }: Props) {
   const { t, lang } = useLang();
+  const pages = usePages();
   const pageEntry = pages.find((p) => p.key === category.slug);
   const pageNum = pageEntry?.n ?? "—";
 
@@ -18,7 +20,7 @@ export default function SeriesClient({ category, media }: Props) {
       {/* Header strip — page number + series name + count */}
       <div className="rule-t pt-4 flex items-baseline justify-between gap-3">
         <span className="mono text-[0.64rem] uppercase tracking-[0.24em] text-muted">
-          {t(translations.nav[category.slug as keyof typeof translations.nav])}
+          {category.name}
         </span>
         <span className="mono text-[0.64rem] tracking-[0.24em] tabular-nums text-muted">
           {pageNum}

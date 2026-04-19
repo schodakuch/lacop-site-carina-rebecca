@@ -68,7 +68,7 @@ export default function HomeClient({ profile, categories, media }: Props) {
                 href={`/photos/${firstSeries.slug}`}
                 className="inline-block text-[0.98rem] hover-line"
               >
-                {t(translations.cover.open)} →
+                {t(translations.cover.open).replace("{first}", firstSeries.name)} →
               </Link>
             </div>
           )}

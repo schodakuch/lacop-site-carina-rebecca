@@ -2,13 +2,16 @@
 
 import Link from "next/link";
 import { useLang } from "@/context/LanguageContext";
-import { pages, translations } from "@/data/content";
+import { translations } from "@/data/content";
+import { usePages } from "@/hooks/usePages";
 
-// Booklet prev/next. Given the current page's key, finds its index in the
-// `pages` ledger and renders flanking links. Edges show a dash.
+// Booklet prev/next. Given the current page's key (e.g. "cover", "about",
+// "contact", or a category slug), finds its index in the live page ledger
+// and renders flanking links. Edges show a dash.
 
 export default function Pagination({ pageKey }: { pageKey: string }) {
   const { t } = useLang();
+  const pages = usePages();
   const idx = pages.findIndex((p) => p.key === pageKey);
   if (idx < 0) return null;
   const prev = idx > 0 ? pages[idx - 1] : null;
@@ -23,7 +26,7 @@ export default function Pagination({ pageKey }: { pageKey: string }) {
         {prev ? (
           <Link href={prev.href} className="group inline-block">
             <span className="mono text-[0.6rem] tracking-[0.24em] text-muted block mb-1">
-              {prev.n} · {t(translations.nav[prev.key])}
+              {prev.n} · {prev.label}
             </span>
             <span className="hover-line">{t(translations.series.prev)}</span>
           </Link>
@@ -35,7 +38,7 @@ export default function Pagination({ pageKey }: { pageKey: string }) {
         {next ? (
           <Link href={next.href} className="group inline-block">
             <span className="mono text-[0.6rem] tracking-[0.24em] text-muted block mb-1">
-              {next.n} · {t(translations.nav[next.key])}
+              {next.n} · {next.label}
             </span>
             <span className="hover-line">{t(translations.series.next)}</span>
           </Link>

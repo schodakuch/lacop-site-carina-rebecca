@@ -2,6 +2,41 @@
 
 Demo site for Carina Rebecca (carina-rebecca.lacop.site).
 
+## 2026-04-19 — True multi-tenant shell (dynamic booklet)
+- The booklet was a fixed 6-page structure with three category pages
+  hard-coded to slugs `editorial / portraiture / lifestyle` in
+  `content.ts`. Flipping `LACOP_USER_SLUG` to a customer with different
+  categories would have rendered broken nav, empty labels, and a 404 on
+  the `/photos` redirect. Refactored to a dynamic booklet: cover (01) +
+  N category pages (02..N+1) + about (N+2) + contact (N+3). A customer
+  with four categories now ships a 7-page booklet; two categories ship
+  five. Live ledger is composed by `usePages()` in
+  `src/hooks/usePages.ts`, reading `useCategories()` from context.
+- New `src/lib/pages.ts` — pure `buildPages(categories, labels)` builder.
+- `src/data/content.ts` dropped slug-keyed nav entries
+  (`editorial / portraiture / lifestyle`) and the book-vocab keys
+  (`colophon / signature`) in favour of plain `cover / about / contact`
+  plus whatever `category.name` the customer provides. `cover.open`
+  copy now uses a `{first}` token replaced at render with the first
+  category's name.
+- `ProfileContext` extended to carry `{ profile, categories }` with a
+  `useCategories()` hook. Layout fetches both in one `Promise.all` and
+  stopped leaking "editorial, portraiture and lifestyle" into the
+  default meta description.
+- Navigation, Pagination, HomeClient, AboutClient, ContactClient,
+  SeriesClient, PhotosClient all rewritten against the live ledger —
+  page numbers, labels, and redirects all flow from the customer's
+  categories.
+- Mobile "Index / Close" burger: `min-h-11 min-w-11 flex` ensures the
+  tap target clears 44px even when the text label is narrow.
+- Seeded a second demo profile in `src/data/mock.ts` (`sample-alt` with
+  four categories: Campaign / Runway / Beauty / Print). Dual build
+  verified: primary emits `/photos/{editorial,portraiture,lifestyle}`
+  with a 6-page booklet; `LACOP_USER_SLUG=sample-alt` emits
+  `/photos/{campaign,runway,beauty,print}` with a 7-page booklet — same
+  visual shell, different tenant, different page count.
+
+
 ## 2026-04-18 — Mobile fix: hero figure shown above text wall
 - On mobile the sticky right-column figure was appearing BELOW the entire
   left column (name + bio + CTA + contents list) — users saw ~500px of text

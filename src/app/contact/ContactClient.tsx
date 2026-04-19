@@ -5,6 +5,7 @@ import type { Profile } from "@/lib/types";
 import { safeUrl } from "@/lib/utils";
 import { translations } from "@/data/content";
 import { useLang } from "@/context/LanguageContext";
+import { usePages } from "@/hooks/usePages";
 import Pagination from "@/components/Pagination";
 
 type Props = { profile: Profile };
@@ -27,6 +28,8 @@ function bookingEmailFor(profile: Profile): string {
 
 export default function ContactClient({ profile }: Props) {
   const { t, lang } = useLang();
+  const pages = usePages();
+  const pageNum = pages.find((p) => p.key === "contact")?.n ?? "—";
   const [sent, setSent] = useState(false);
   const bookingEmail = bookingEmailFor(profile);
 
@@ -56,9 +59,9 @@ export default function ContactClient({ profile }: Props) {
     <article className="px-5 md:px-10 max-w-[1100px] pt-10 md:pt-16 pb-10">
       <div className="rule-t pt-4 flex items-baseline justify-between gap-3">
         <span className="mono text-[0.64rem] uppercase tracking-[0.24em] text-muted">
-          {t(translations.nav.signature)}
+          {t(translations.nav.contact)}
         </span>
-        <span className="mono text-[0.64rem] tracking-[0.24em] tabular-nums text-muted">06</span>
+        <span className="mono text-[0.64rem] tracking-[0.24em] tabular-nums text-muted">{pageNum}</span>
       </div>
 
       <header className="mt-14 md:mt-20 mb-10 md:mb-14 max-w-[52ch]">
@@ -139,7 +142,7 @@ export default function ContactClient({ profile }: Props) {
         </div>
       </div>
 
-      <Pagination pageKey="signature" />
+      <Pagination pageKey="contact" />
     </article>
   );
 }

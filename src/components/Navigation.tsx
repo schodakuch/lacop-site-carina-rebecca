@@ -5,15 +5,21 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useLang } from "@/context/LanguageContext";
 import { useProfile } from "@/context/ProfileContext";
-import { pages, translations } from "@/data/content";
+import { translations } from "@/data/content";
+import { usePages } from "@/hooks/usePages";
 
 // Side rail (desktop) + top bar with a sliding index sheet (mobile).
 // The rail is the nav paradigm that diverges this site from the rest of
 // the repo — every other site uses a top bar.
+//
+// The page ledger comes from usePages(), which builds it at render time
+// from the active customer's categories — so swapping LACOP_USER_SLUG
+// produces a booklet sized to that customer without touching this file.
 
 export default function Navigation() {
   const { lang, toggle, t } = useLang();
   const profile = useProfile();
+  const pages = usePages();
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
 
@@ -81,7 +87,7 @@ export default function Navigation() {
                     href={p.href}
                     className={`text-[0.94rem] ${active ? "text-clay" : "text-ink"} hover-line`}
                   >
-                    {t(translations.nav[p.key])}
+                    {p.label}
                   </Link>
                 </li>
               );
@@ -122,7 +128,7 @@ export default function Navigation() {
               onClick={() => setOpen((v) => !v)}
               aria-expanded={open}
               aria-controls="mobile-index"
-              className="mono text-[0.66rem] uppercase tracking-[0.22em] text-ink"
+              className="mono text-[0.66rem] uppercase tracking-[0.22em] text-ink min-h-11 min-w-11 flex items-center justify-center -mr-2"
             >
               {open ? t(translations.nav.close) : t(translations.nav.index)}
             </button>
@@ -146,7 +152,7 @@ export default function Navigation() {
                   href={p.href}
                   className={`text-[1.1rem] ${isActive(p.href) ? "text-clay" : "text-ink"}`}
                 >
-                  {t(translations.nav[p.key])}
+                  {p.label}
                 </Link>
               </li>
             ))}

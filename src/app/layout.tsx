@@ -4,7 +4,7 @@ import Navigation from "@/components/Navigation";
 import Footer from "@/components/Footer";
 import { LanguageProvider } from "@/context/LanguageContext";
 import { ProfileProvider } from "@/context/ProfileContext";
-import { getProfile } from "@/lib/lacop";
+import { getCategories, getProfile } from "@/lib/lacop";
 import "./globals.css";
 
 const body = Manrope({
@@ -28,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const displayName = profile.display_name ?? profile.slug;
   const description =
     profile.bio ??
-    `${displayName} — editorial, portraiture and lifestyle. A working portfolio.`;
+    `${displayName} — a working lookbook. Pick any series from the contents.`;
 
   return {
     metadataBase: new URL(SITE_URL),
@@ -67,7 +67,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
-  const profile = await getProfile();
+  const [profile, categories] = await Promise.all([getProfile(), getCategories()]);
   const displayName = profile.display_name ?? profile.slug;
 
   const personSchema = {
@@ -99,7 +99,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         >
           Skip to content
         </a>
-        <ProfileProvider profile={profile}>
+        <ProfileProvider profile={profile} categories={categories}>
           <LanguageProvider>
             <Navigation />
             <main id="main" className="flex-1 relative z-10 md:ml-[220px] pt-14 md:pt-0">

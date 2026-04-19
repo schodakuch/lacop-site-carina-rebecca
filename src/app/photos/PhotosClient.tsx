@@ -1,17 +1,18 @@
 "use client";
 
-// Redirect /photos → the first series (02 Editorial). The lookbook has no
-// separate "contents" page — the cover IS the contents.
+// Redirect /photos → the customer's first category page. The lookbook
+// has no separate "contents" page — the cover IS the contents.
 
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { pages } from "@/data/content";
+import { useCategories } from "@/context/ProfileContext";
 
 export default function PhotosClient() {
   const router = useRouter();
+  const categories = useCategories();
   useEffect(() => {
-    const first = pages.find((p) => p.key === "editorial");
-    router.replace(first?.href ?? "/");
-  }, [router]);
+    const first = categories[0];
+    router.replace(first ? `/photos/${first.slug}` : "/");
+  }, [router, categories]);
   return null;
 }

@@ -4,21 +4,24 @@ import type { Profile } from "@/lib/types";
 import { safeUrl } from "@/lib/utils";
 import { translations } from "@/data/content";
 import { useLang } from "@/context/LanguageContext";
+import { usePages } from "@/hooks/usePages";
 import Pagination from "@/components/Pagination";
 
 type Props = { profile: Profile };
 
 export default function AboutClient({ profile }: Props) {
   const { t } = useLang();
+  const pages = usePages();
+  const pageNum = pages.find((p) => p.key === "about")?.n ?? "—";
   const statsEntries = Object.entries(profile.stats);
 
   return (
     <article className="px-5 md:px-10 max-w-[1100px] pt-10 md:pt-16 pb-10">
       <div className="rule-t pt-4 flex items-baseline justify-between gap-3">
         <span className="mono text-[0.64rem] uppercase tracking-[0.24em] text-muted">
-          {t(translations.nav.colophon)}
+          {t(translations.nav.about)}
         </span>
-        <span className="mono text-[0.64rem] tracking-[0.24em] tabular-nums text-muted">05</span>
+        <span className="mono text-[0.64rem] tracking-[0.24em] tabular-nums text-muted">{pageNum}</span>
       </div>
 
       <header className="mt-14 md:mt-20 mb-12 md:mb-16 max-w-[52ch]">
@@ -89,7 +92,7 @@ export default function AboutClient({ profile }: Props) {
         </aside>
       </div>
 
-      <Pagination pageKey="colophon" />
+      <Pagination pageKey="about" />
     </article>
   );
 }
