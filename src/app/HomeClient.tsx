@@ -123,9 +123,13 @@ export default function HomeClient({ profile, categories, media }: Props) {
           </p>
         </div>
 
-        {/* RIGHT — reactive frame (mobile: shown first, above the text) */}
+        {/* RIGHT — reactive frame (mobile: shown first, above the text).
+            Asymmetric radius (softened top-left + bottom-right, sharp
+            top-right + bottom-left) gives the cover plate a contemporary
+            print-feel without affecting the /photos grid, which stays
+            squared. */}
         <figure className="md:col-span-6 md:sticky md:top-14 md:self-start order-1 md:order-2">
-          <div className="relative aspect-[4/5] md:aspect-[4/5] overflow-hidden rounded-sm bg-sand">
+          <div className="relative aspect-[4/5] md:aspect-[4/5] overflow-hidden rounded-tl-[2.25rem] rounded-br-[2.25rem] rounded-tr-sm rounded-bl-sm ring-1 ring-rule bg-sand">
             <AnimatePresence initial={false}>
               <motion.div
                 key={activeSrc}
