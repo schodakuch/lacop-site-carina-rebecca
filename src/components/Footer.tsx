@@ -1,24 +1,57 @@
 "use client";
 
-import { useLang } from "@/context/LanguageContext";
+import Link from "next/link";
 import { useProfile } from "@/context/ProfileContext";
-import { translations } from "@/data/content";
+import { copy } from "@/data/copy";
+import { getSocialLabel, safeUrl } from "@/lib/utils";
 
 export default function Footer() {
-  const { t } = useLang();
   const profile = useProfile();
   const year = new Date().getFullYear();
   const displayName = profile.display_name ?? profile.slug;
+  const socials = Object.entries(profile.social_links ?? {}).filter(([, v]) => Boolean(v));
 
   return (
-    <footer className="md:ml-[220px] border-t border-rule">
-      <div className="px-5 md:px-10 py-8 flex flex-col md:flex-row md:items-center md:justify-between gap-3 text-[0.82rem] text-muted">
-        <span>
-          © {year} {displayName}. {t(translations.footer.rights)}.
-        </span>
-        <span className="mono text-[0.66rem] uppercase tracking-[0.22em]">
-          {t(translations.footer.set)}
-        </span>
+    <footer className="md:ml-[220px] border-t border-rule mt-auto">
+      <div className="px-5 md:px-10 py-8 md:py-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6 text-[0.88rem] text-muted">
+        <div className="flex flex-wrap items-baseline gap-x-4 gap-y-2">
+          <span>© {year} {displayName}</span>
+          <span className="hidden md:inline text-rule">·</span>
+          <span>{copy.footer.rights}</span>
+          <span className="hidden md:inline text-rule">·</span>
+          <Link href="/impressum" className="hover-line text-ink-soft">
+            {copy.footer.impressum}
+          </Link>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+          {socials.map(([platform, url]) => {
+            const safe = safeUrl(url);
+            if (!safe) return null;
+            return (
+              <a
+                key={platform}
+                href={safe}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover-line text-ink-soft"
+              >
+                {getSocialLabel(platform)}
+              </a>
+            );
+          })}
+          <a href="#top" className="hover-line mono text-[0.72rem] uppercase tracking-[0.18em] text-ink-soft">
+            {copy.footer.top} ↑
+          </a>
+          <a
+            href="https://lacop.app"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mono text-[0.68rem] uppercase tracking-[0.16em] text-muted hover:text-ink-soft"
+          >
+            {copy.footer.made_with} <span className="text-ink-soft">LACOP</span>
+          </a>
+        </div>
       </div>
     </footer>
   );

@@ -2,6 +2,41 @@
 
 Demo site for Carina Rebecca (carina-rebecca.lacop.site).
 
+## 2026-04-20 — Align with LACOP standard portfolio shape (chiara-ebner pattern)
+
+Restructured to the canonical four-route pattern (brief 2026-04-20):
+
+- **DE-only.** Removed `LanguageContext`, `t()` calls, and every
+  `{ en: …, de: … }` translation object. Copy table at
+  `src/data/copy.ts`. `html lang="de"`, OG `de_DE`.
+- **Routes:** `/`, `/portfolio`, `/about`, `/contact`, `/impressum`.
+  Replaced the booklet (`/photos` with anchored category sections +
+  usePages-driven 4-page ledger) with classic portfolio IA.
+- **Hero is a photograph.** `hero_image_url || media[0] ||
+  profile_image_url` fallback. Real Instagram stills unchanged.
+- **/portfolio** reads `?category=<slug>` for deep-linked filters.
+  Filter pills use serif italic for the active state — matches the
+  existing type voice.
+- **/about:** portrait + bio + stats (Object.entries) + agencies +
+  custom_links; empty-state placeholders everywhere.
+- **/contact:** classic form (Name / E-Mail / Betreff / Nachricht /
+  "Nachricht senden") opening a mailto:.
+- **Nav:** the 220px left side rail survives — it was the repo-unique
+  paradigm. Relabelled as `01 Start / 02 Portfolio / 03 Über mich /
+  04 Kontakt` (was booklet's `Cover / Photos / About / Contact` with
+  dynamic page count). Removed `Pagination.tsx`, `PageFrame.tsx`,
+  `usePages`, `lib/pages.ts` — the page ledger is now a static
+  four-route constant inside Navigation.
+- **Footer:** copyright + rights + Impressum + Instagram + Nach oben
+  + Portfolio by LACOP (replaces the booklet "Set on lacop.app" text).
+- **Preserved:** Manrope body + JetBrains Mono meta, paper `#FBF8F2`
+  + clay `#B68D6A` palette, serif display headings (font-serif on h1),
+  `ScrollReveal`, hover-line underline animation, side-rail nav.
+
+Lane: Warm Lookbook (preserved) · Metaphor: Paper + clay · Page
+model: Classic four-route · Nav: Side rail (repo-unique) · IA: By
+category.
+
 ## 2026-04-19 — Mobile drawer ergonomics + asymmetric cover-frame radius
 - Mobile drawer rows had no intrinsic height (inline baseline layout,
   `space-y-4` between items) so the effective touch target was roughly

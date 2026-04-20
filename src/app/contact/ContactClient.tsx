@@ -2,22 +2,11 @@
 
 import { useState } from "react";
 import type { Profile } from "@/lib/types";
-import { safeUrl } from "@/lib/utils";
-import { translations } from "@/data/content";
-import { useLang } from "@/context/LanguageContext";
-import { usePages } from "@/hooks/usePages";
-import Pagination from "@/components/Pagination";
+import { getSocialLabel, safeUrl } from "@/lib/utils";
+import { copy } from "@/data/copy";
+import ScrollReveal from "@/components/ScrollReveal";
 
 type Props = { profile: Profile };
-
-const SOCIAL_LABELS: Record<string, { en: string; de: string }> = {
-  instagram: { en: "Instagram", de: "Instagram" },
-  tiktok: { en: "TikTok", de: "TikTok" },
-  youtube: { en: "YouTube", de: "YouTube" },
-  snapchat: { en: "Snapchat", de: "Snapchat" },
-  website: { en: "Website", de: "Webseite" },
-  email: { en: "Email", de: "E-Mail" },
-};
 
 function bookingEmailFor(profile: Profile): string {
   if (profile.website_domain) {
@@ -27,136 +16,150 @@ function bookingEmailFor(profile: Profile): string {
 }
 
 export default function ContactClient({ profile }: Props) {
-  const { t, lang } = useLang();
-  const pages = usePages();
-  const pageNum = pages.find((p) => p.key === "contact")?.n ?? "—";
   const [sent, setSent] = useState(false);
-  const bookingEmail = bookingEmailFor(profile);
+  const [submitting, setSubmitting] = useState(false);
 
-  const socials = Object.entries(profile.social_links)
-    .map(([platform, url]) => ({ platform, url: safeUrl(url) }))
-    .filter((s): s is { platform: string; url: string } => !!s.url);
+  const email = bookingEmailFor(profile);
+  const socials = Object.entries(profile.social_links ?? {}).filter(([, v]) => Boolean(v));
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const name = String(data.get("name") ?? "").trim();
-    const email = String(data.get("email") ?? "").trim();
-    const subject =
-      String(data.get("subject") ?? "").trim() || t(translations.contact.subject_fallback);
-    const message = String(data.get("message") ?? "").trim();
-    const body =
-      `${message}\n\n—\n` +
-      `${lang === "de" ? "Von" : "From"}: ${name}\n` +
-      `${lang === "de" ? "E-Mail" : "Email"}: ${email}`;
-    window.location.href = `mailto:${bookingEmail}?subject=${encodeURIComponent(
-      subject,
-    )}&body=${encodeURIComponent(body)}`;
-    setSent(true);
-  };
+    setSubmitting(true);
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const name = String(data.get("name") ?? "");
+    const from = String(data.get("email") ?? "");
+    const subject = String(data.get("subject") ?? "");
+    const message = String(data.get("message") ?? "");
+    const body = `${message}\n\n—\n${name}${from ? ` <${from}>` : ""}`;
+    window.location.href = `mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    setTimeout(() => {
+      setSent(true);
+      setSubmitting(false);
+    }, 300);
+  }
 
   return (
-    <article className="px-5 md:px-10 max-w-[1100px] pt-10 md:pt-16 pb-10">
-      <div className="rule-t pt-4 flex items-baseline justify-between gap-3">
-        <span className="mono text-[0.64rem] uppercase tracking-[0.24em] text-muted">
-          {t(translations.nav.contact)}
-        </span>
-        <span className="mono text-[0.64rem] tracking-[0.24em] tabular-nums text-muted">{pageNum}</span>
-      </div>
-
-      <header className="mt-14 md:mt-20 mb-10 md:mb-14 max-w-[52ch]">
-        <h1 className="text-[clamp(2.4rem,7vw,4.4rem)] tracking-[-0.02em] font-light">
-          {t(translations.contact.heading)}
+    <>
+      <section className="px-5 md:px-10 lg:px-14 pt-8 md:pt-14 pb-8 md:pb-12">
+        <p className="mono text-[0.68rem] uppercase tracking-[0.26em] text-clay mb-3">
+          {copy.contact.eyebrow}
+        </p>
+        <h1 className="font-serif font-light tracking-[-0.02em] text-[clamp(2.8rem,10vw,6.4rem)] leading-[0.98] text-ink">
+          {copy.contact.title}
         </h1>
-        <p className="mt-5 text-[1rem] text-ink-soft">{t(translations.contact.lede)}</p>
-      </header>
+        <p className="font-serif italic text-lg md:text-xl text-ink-soft mt-6 max-w-xl">
+          {copy.contact.subtitle}
+        </p>
+      </section>
 
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-14">
-        <aside className="md:col-span-4 space-y-6">
-          <ul className="space-y-4 text-[1rem]">
-            {socials.map(({ platform, url }) => {
-              const base = SOCIAL_LABELS[platform] ?? { en: platform, de: platform };
-              return (
-                <li key={platform}>
-                  <a href={url} target="_blank" rel="noreferrer" className="hover-line">
-                    {t(base)} ↗
-                  </a>
-                </li>
-              );
-            })}
-            {profile.custom_links.map((link) => {
-              const href = safeUrl(link.url);
-              if (!href) return null;
-              return (
-                <li key={link.url}>
-                  <a href={href} target="_blank" rel="noreferrer" className="hover-line">
-                    {link.label} ↗
-                  </a>
-                </li>
-              );
-            })}
-          </ul>
-          <p className="mono text-[0.62rem] uppercase tracking-[0.16em] text-muted pt-2">
-            {bookingEmail}
-            <span className="block normal-case tracking-normal mt-1 text-[0.68rem]">
-              {t(translations.contact.placeholder_note)}
-            </span>
-          </p>
-        </aside>
-
-        <div className="md:col-span-7 md:col-start-6">
-          <p className="text-[0.98rem] text-ink-soft max-w-[52ch]">
-            {t(translations.contact.form_note)}
-          </p>
-
-          <form
-            onSubmit={handleSubmit}
-            className="mt-10 grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-7"
-          >
-            <Field label={t(translations.contact.labels.name)}>
-              <input required type="text" name="name" autoComplete="name" className={fieldClass} />
-            </Field>
-            <Field label={t(translations.contact.labels.email)}>
-              <input required type="email" name="email" autoComplete="email" className={fieldClass} />
-            </Field>
-            <div className="md:col-span-2">
-              <Field label={t(translations.contact.labels.subject)}>
-                <input type="text" name="subject" className={fieldClass} />
-              </Field>
-            </div>
-            <div className="md:col-span-2">
-              <Field label={t(translations.contact.labels.message)}>
-                <textarea required name="message" rows={5} className={`${fieldClass} resize-none`} />
-              </Field>
-            </div>
-            <div className="md:col-span-2 mt-2">
-              <button
-                type="submit"
-                disabled={sent}
-                className="inline-flex items-center gap-3 bg-ink text-paper mono uppercase tracking-[0.22em] text-[0.7rem] px-6 py-4 hover:bg-clay disabled:bg-muted transition-colors"
+      <section className="px-5 md:px-10 lg:px-14 py-12 md:py-20 border-t border-rule">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10 md:gap-16">
+          <ScrollReveal className="md:col-span-5 space-y-10">
+            <div>
+              <p className="mono text-[0.68rem] uppercase tracking-[0.22em] text-muted mb-2">
+                {copy.contact.form.email}
+              </p>
+              <a
+                href={`mailto:${email}`}
+                className="hover-line font-serif italic text-xl md:text-2xl text-ink break-all"
               >
-                {sent ? t(translations.contact.sending) : t(translations.contact.send)}
-              </button>
+                {email}
+              </a>
             </div>
-          </form>
-        </div>
-      </div>
 
-      <Pagination pageKey="contact" />
-    </article>
+            {socials.length > 0 && (
+              <div>
+                <p className="mono text-[0.68rem] uppercase tracking-[0.22em] text-muted mb-3">
+                  {copy.contact.follow_heading}
+                </p>
+                <ul className="flex flex-wrap gap-x-5 gap-y-2">
+                  {socials.map(([platform, url]) => {
+                    const safe = safeUrl(url);
+                    if (!safe) return null;
+                    return (
+                      <li key={platform}>
+                        <a
+                          href={safe}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover-line font-serif italic text-lg text-clay"
+                        >
+                          {getSocialLabel(platform)}
+                        </a>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+            )}
+          </ScrollReveal>
+
+          <ScrollReveal className="md:col-span-7" delay={0.15}>
+            {sent ? (
+              <div className="py-12 text-center">
+                <p className="font-serif text-6xl text-clay mb-6">✓</p>
+                <p className="font-serif italic text-xl md:text-2xl text-ink">
+                  {copy.contact.form.sent}
+                </p>
+              </div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <Field name="name" label={copy.contact.form.name} required />
+                  <Field name="email" type="email" label={copy.contact.form.email} required />
+                </div>
+                <Field name="subject" label={copy.contact.form.subject} required />
+                <Field name="message" label={copy.contact.form.message} required textarea />
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="inline-flex items-center gap-3 text-[0.92rem] font-medium text-paper bg-ink px-6 py-3 hover:bg-clay transition-colors disabled:opacity-60"
+                >
+                  {submitting ? copy.contact.form.sending : copy.contact.form.send}
+                </button>
+              </form>
+            )}
+          </ScrollReveal>
+        </div>
+      </section>
+    </>
   );
 }
 
-const fieldClass =
-  "w-full bg-transparent border-0 border-b border-rule py-2 text-base text-ink transition-colors duration-300 focus:outline-none focus:border-clay";
-
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({
+  name,
+  label,
+  type = "text",
+  required,
+  textarea,
+}: {
+  name: string;
+  label: string;
+  type?: string;
+  required?: boolean;
+  textarea?: boolean;
+}) {
   return (
     <label className="block">
-      <span className="mono text-[0.62rem] uppercase tracking-[0.18em] text-muted block mb-2">
+      <span className="block mono text-[0.68rem] uppercase tracking-[0.22em] text-muted mb-2">
         {label}
       </span>
-      {children}
+      {textarea ? (
+        <textarea
+          name={name}
+          required={required}
+          rows={5}
+          className="w-full bg-transparent border-0 border-b border-rule focus:border-clay pb-2 outline-none text-ink font-serif text-lg transition-colors resize-none"
+        />
+      ) : (
+        <input
+          name={name}
+          type={type}
+          required={required}
+          className="w-full bg-transparent border-0 border-b border-rule focus:border-clay pb-2 outline-none text-ink font-serif text-lg transition-colors"
+        />
+      )}
     </label>
   );
 }
