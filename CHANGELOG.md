@@ -2,6 +2,13 @@
 
 Demo site for Carina Rebecca (carina-rebecca.lacop.site).
 
+## 2026-04-20 — Trigger rebuild (MAẞE glyph commit didn't deploy)
+
+Previous `MAẞE` commit `3e59d42` didn't trigger a Vercel deployment
+for the carina project — site stayed on the old /photos IA with
+bilingual toggle. Force-triggering a rebuild with this empty ledger
+entry.
+
 ## 2026-04-20 — Align with LACOP standard portfolio shape (chiara-ebner pattern)
 
 Restructured to the canonical four-route pattern (brief 2026-04-20):
