@@ -13,7 +13,7 @@ export const copy = {
   home: {
     categories_eyebrow: "Serien",
     categories_cta: "Portfolio entdecken",
-    stats_eyebrow: "Maße",
+    stats_eyebrow: "MAẞE",
     stats_empty: "Maße folgen.",
     about_eyebrow: "Kurzbio",
     about_empty: "Kurzbio folgt.",
@@ -30,7 +30,7 @@ export const copy = {
     eyebrow: "Profil",
     bio_heading: "Kurzbio",
     bio_empty: "Kurzbio folgt.",
-    stats_heading: "Maße",
+    stats_heading: "MAẞE",
     stats_empty: "Maße folgen.",
     agencies_heading: "Agenturen",
     links_heading: "Links",
