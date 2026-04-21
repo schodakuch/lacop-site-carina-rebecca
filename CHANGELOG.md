@@ -2,6 +2,44 @@
 
 Demo site for Carina Rebecca (carina-rebecca.lacop.site).
 
+## 2026-04-21 — Hero fits the fold (svh-capped image, flex-centered section)
+
+The hero still overflowed the fold on short mobile viewports because
+`aspect-[4/5]` on the stacked image grew with container width and had
+no viewport-relative cap — on iPhone SE (667px) the image alone was
+~420px. Switched vh → svh (so the cap respects the mobile address bar),
+pulled the mobile cap down, and gave the hero `min-h-[calc(100svh-...)]
+flex flex-col justify-center` so the whole block is vertically centered
+inside the viewport on tall screens and still fits on short ones.
+
+- Hero image: `max-h-[60vh] md:max-h-[72vh]` →
+  `max-h-[42svh] md:max-h-[70svh]`.
+- Hero section: `flex flex-col justify-center
+  min-h-[calc(100svh-3.5rem)] md:min-h-screen`.
+- H1 cap: `8.5vw,5.8rem` → `7.5vw,5.4rem`; bio `text-lg md:text-xl` →
+  `text-base md:text-xl`; stack spacing tightened on mobile.
+
+**Why svh, not vh:** mobile Safari/Chrome count the address-bar area
+toward `100vh`, so a `max-h-[60vh]` cap on a 667px viewport was really
+~56% of 812px (the large viewport) → overflow when chrome is visible.
+`svh` is locked to the smallest viewport state → cap is always honored.
+
+## 2026-04-21 — Tame oversized sections across breakpoints
+
+Hero/page titles were hitting wide viewports too hard and dwarfing the
+frame. Pulled the clamp ceilings down and added a viewport-height cap on
+the hero image so it can't swallow the page on tall monitors; also
+tightened vertical section padding with an `lg:` step so `py-20` is
+reserved for desktop rather than kicking in at `md` (768px).
+
+- Home H1: `clamp(3rem,12vw,7.4rem)` → `clamp(2.4rem,8.5vw,5.8rem)`.
+- About/Portfolio/Contact H1s: `clamp(2.8rem,10vw,6.4rem)` →
+  `clamp(2.2rem,8vw,5rem)`.
+- Hero image wrapper: added `max-h-[60vh] md:max-h-[72vh]`.
+- Section vertical rhythm: `py-14 md:py-20` → `py-12 md:py-16 lg:py-20`
+  (and matching `pb-*` on the hero).
+- Contact success mark `text-6xl` → `text-5xl sm:text-6xl`.
+
 ## 2026-04-20 — Trigger rebuild (MAẞE glyph commit didn't deploy)
 
 Previous `MAẞE` commit `3e59d42` didn't trigger a Vercel deployment

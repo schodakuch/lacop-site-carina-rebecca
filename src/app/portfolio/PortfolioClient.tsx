@@ -41,7 +41,7 @@ export default function PortfolioClient({ categories, media }: Props) {
         <p className="mono text-[0.68rem] uppercase tracking-[0.26em] text-clay mb-3">
           {copy.portfolio.eyebrow}
         </p>
-        <h1 className="font-serif font-light tracking-[-0.02em] text-[clamp(2.8rem,10vw,6.4rem)] leading-[0.98] text-ink">
+        <h1 className="font-serif font-light tracking-[-0.02em] text-[clamp(2.2rem,8vw,5rem)] leading-[0.98] text-ink">
           {copy.portfolio.title}
         </h1>
 

@@ -26,23 +26,23 @@ export default function HomeClient({ profile, categories, media }: Props) {
 
   return (
     <>
-      {/* HERO */}
-      <section className="relative px-5 md:px-10 lg:px-14 pt-6 md:pt-10 pb-14 md:pb-20">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-10 items-end">
+      {/* HERO — content fits viewport (svh-capped image, flex-centered on mobile) */}
+      <section className="relative px-5 md:px-10 lg:px-14 pt-6 md:pt-10 pb-12 md:pb-16 lg:pb-20 flex flex-col justify-center min-h-[calc(100svh-3.5rem)] md:min-h-0">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-10 items-end">
           <div className="md:col-span-5 order-2 md:order-1">
             <p className="mono text-[0.68rem] uppercase tracking-[0.26em] text-clay mb-4">
               {profile.role} · {copy.nav.home}
             </p>
-            <h1 className="font-serif font-light tracking-[-0.02em] text-[clamp(3rem,12vw,7.4rem)] leading-[0.98] text-ink">
+            <h1 className="font-serif font-light tracking-[-0.02em] text-[clamp(2.2rem,7.5vw,5.4rem)] leading-[0.98] text-ink">
               <span className="block font-medium">{displayName.split(" ")[0]}</span>
               <span className="block italic text-ink-soft">
                 {displayName.split(" ").slice(1).join(" ")}
               </span>
             </h1>
-            <p className={`italic text-lg md:text-xl mt-6 max-w-md ${hasBio ? "text-ink-soft" : "text-muted"}`}>
+            <p className={`italic text-base md:text-xl mt-5 md:mt-6 max-w-md ${hasBio ? "text-ink-soft" : "text-muted"}`}>
               {profile.bio ?? copy.home.about_empty}
             </p>
-            <div className="mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
+            <div className="mt-6 md:mt-10 flex flex-wrap items-center gap-x-6 gap-y-3">
               <Link
                 href="/portfolio"
                 className="inline-flex items-center gap-3 text-[0.92rem] font-medium text-paper bg-ink px-6 py-3 hover:bg-clay transition-colors"
@@ -62,7 +62,7 @@ export default function HomeClient({ profile, categories, media }: Props) {
               transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
               className="md:col-span-7 order-1 md:order-2 relative"
             >
-              <div className="relative aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-sand">
+              <div className="relative aspect-[4/5] md:aspect-[3/4] overflow-hidden bg-sand max-h-[42svh] md:max-h-[70svh]">
                 <Image
                   src={heroSrc}
                   alt={displayName}
@@ -79,7 +79,7 @@ export default function HomeClient({ profile, categories, media }: Props) {
 
       {/* CATEGORIES */}
       {categories.length > 0 && (
-        <section className="px-5 md:px-10 lg:px-14 py-14 md:py-20 border-t border-rule">
+        <section className="px-5 md:px-10 lg:px-14 py-12 md:py-16 lg:py-20 border-t border-rule">
           <ScrollReveal>
             <div className="flex items-end justify-between gap-6 mb-8 md:mb-12">
               <div>
@@ -133,7 +133,7 @@ export default function HomeClient({ profile, categories, media }: Props) {
       )}
 
       {/* STATS + BIO teaser */}
-      <section className="px-5 md:px-10 lg:px-14 py-14 md:py-20 border-t border-rule bg-sand/40">
+      <section className="px-5 md:px-10 lg:px-14 py-12 md:py-16 lg:py-20 border-t border-rule bg-sand/40">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
           <ScrollReveal className="md:col-span-5">
             <p className="mono text-[0.68rem] uppercase tracking-[0.26em] text-clay mb-4">

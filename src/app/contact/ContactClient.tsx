@@ -45,7 +45,7 @@ export default function ContactClient({ profile }: Props) {
         <p className="mono text-[0.68rem] uppercase tracking-[0.26em] text-clay mb-3">
           {copy.contact.eyebrow}
         </p>
-        <h1 className="font-serif font-light tracking-[-0.02em] text-[clamp(2.8rem,10vw,6.4rem)] leading-[0.98] text-ink">
+        <h1 className="font-serif font-light tracking-[-0.02em] text-[clamp(2.2rem,8vw,5rem)] leading-[0.98] text-ink">
           {copy.contact.title}
         </h1>
         <p className="font-serif italic text-lg md:text-xl text-ink-soft mt-6 max-w-xl">
@@ -98,7 +98,7 @@ export default function ContactClient({ profile }: Props) {
           <ScrollReveal className="md:col-span-7" delay={0.15}>
             {sent ? (
               <div className="py-12 text-center">
-                <p className="font-serif text-6xl text-clay mb-6">✓</p>
+                <p className="font-serif text-5xl sm:text-6xl text-clay mb-6">✓</p>
                 <p className="font-serif italic text-xl md:text-2xl text-ink">
                   {copy.contact.form.sent}
                 </p>
